@@ -64,7 +64,6 @@ def new_search_view(request):
 		elif small and not big:
 			print("Not valid")
 		else:
-			post_title_text = "N/A"
 			post_image_url = 'https://craigslist.org/images/peace.jpg'
 			post_title_text = "N/A"
 			priceEnd = "N/A"
