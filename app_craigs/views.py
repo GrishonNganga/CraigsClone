@@ -5,7 +5,6 @@ from requests.compat import quote_plus
 from .models import Search
 
 BASE_JUMIA_URL = 'https://www.jumia.co.ke/catalog/?q={}'
-BASE_IMAGE_URL = 'https://images.craigslist.org/{}_300x300.jpg'
 
 # Create your views here.
 def home_view(request):
@@ -14,32 +13,68 @@ def home_view(request):
 def new_search_view(request):
 	searched_item = request.POST.get('search')
 	Search.objects.create(search_field = searched_item)
-	final_url = BASE_CRAIGS_URL.format(quote_plus(searched_item))
+	final_url = BASE_JUMIA_URL.format(quote_plus(searched_item))
+	print("Comes next")
 	print(final_url)
 	response = requests.get(final_url)
 	data = response.text
 	soup = BeautifulSoup(data, features = 'html.parser')
-	
-	post_listing = soup.find_all({ 'class': 'products osh_gallery-no_gutter'})
+	post_listing = soup.find_all("a", {'class': 'link'} )
 
+	biggest = 0;
 	fina_postings = []
 	for post in post_listing:
-		post_title = post.find(class_ = 'text text-title -align-left -mbxs -ellipsis-2').text
-		post_url = post.find('a').get('href')
-		if post.find(class_='text text-body-1 color-default -mrxs -inline-block js-actual-price'):
-			friday_pirce = post.find(class_='text text-body-1 color-default -mrxs -inline-block js-actual-price').text
-			post_price = post.find(class_='text text-caption-default-800 -strike -inline-block -mrxs js-old-price').text
-		else:
-			post_price = 'N/A'
+		post_title = post.find("span", {'class': 'name'})
+		post_title_text = post_title.text
+		print(post)
+		#print(post_title)
+		#first_div = post_title.next_sibling
+		#print(first_div)
+		post_url = post.get('href')
 
-		if post.find(class_='lazy card-sku_list--image -block-center -loaded')
-			post_image_id = 
-			post_image_url = post.find(class_='lazy card-sku_list--image -block-center -loaded').text
-			print(post_image_url)
+		if post.find("span", {'class': 'price'}):
+			post_price = post.find_all("span", {'class': 'price'})
+			priceEnd = post_price[0].text
+		else:
+			priceEnd = 'N/A'
+
+		if post.find("span", {'class': 'price -old'}):
+			old_post_price = post.find_all("span", {'class': 'price -old'})
+			old_priceEnd = old_post_price[0].text
+		else:
+			old_priceEnd = 'N/A'
+
+		big = [int(s) for s in old_priceEnd.split() if s.isdigit()]
+		small = [int(s) for s in priceEnd.split() if s.isdigit()]
+
+		print(big)
+		if big and small:
+			bigg = big[0]
+			smal = small[0]
+			net = bigg - smal
+			if net > biggest:
+				biggest = net
+
+				if post.find('noscript', class_ = 'image'):
+					post_image_url = post.find('noscript', class_ = 'image')
+					src = post_image_url.get('src');
+					print(src)
+				else:
+					post_image_url = 'https://craigslist.org/images/peace.jpg'
+		elif small and not big:
+			print("Not valid")
 		else:
 			post_image_url = 'https://craigslist.org/images/peace.jpg'
+			post_title_text = "N/A"
+			priceEnd = "N/A"
 
-		fina_postings.append((post_title, post_url, post_price, post_image_url))
+
+		print(biggest)
+
+		
+		
+
+	fina_postings.append((post_title_text, post_url, priceEnd, post_image_url))
 
 	context_for_frontend = {
 		'searched_item': searched_item,
