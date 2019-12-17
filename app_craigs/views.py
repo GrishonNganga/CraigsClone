@@ -82,7 +82,7 @@ def new_search_view(request):
 	}
 	return render(request, 'app_craigs/new_search.html', context_for_frontend)
 
-	def at(request):
+	def at_view(request):
 		if request.method == POST:
 			sessionId = request.POST.get("sessionId")
 			service_code = request.POST.get("serviceCode")
