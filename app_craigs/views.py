@@ -83,4 +83,7 @@ def new_search_view(request):
 	return render(request, 'app_craigs/new_search.html', context_for_frontend)
 
 	def home_view(request):
+		if request.POST:
+			textname = request.POST
+			print(textname)
 		return render(request, 'app_craigs/at.html', {})
