@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import requests
 from requests.compat import quote_plus
 from .models import Search
-from django.views.decorators.csrf import csrf_exempt
 
 BASE_JUMIA_URL = 'https://www.jumia.co.ke/catalog/?q={}'
 
@@ -83,8 +82,7 @@ def new_search_view(request):
 	}
 	return render(request, 'app_craigs/new_search.html', context_for_frontend)
 
-	@csrf_exempt
-	def home_view(request):
+	def at(request):
 		if request.method == POST:
 			textname = request.POST
 			print(textname)
