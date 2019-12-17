@@ -86,4 +86,4 @@ def new_search_view(request):
 		if request.method == POST:
 			textname = request.POST
 			print(textname)
-		return render(request, 'app_craigs/at.html', {})
+		
