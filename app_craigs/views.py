@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 from requests.compat import quote_plus
 from .models import Search
-from http import HttpResponse
+from django.http import HttpResponse
 
 BASE_JUMIA_URL = 'https://www.jumia.co.ke/catalog/?q={}'
 
