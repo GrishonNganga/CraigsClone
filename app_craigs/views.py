@@ -86,10 +86,9 @@ def new_search_view(request):
 		if request.method == POST:
 			sessionId = request.POST.get("sessionId")
 			service_code = request.POST.get("serviceCode")
-  			phone_number = request.POST.get("phoneNumber")
+			phone_number = request.POST.get("phoneNumber")
   			text = request.POST.get("text")
 			print(sessionId)
 			print(service_code)
 			print(phone_number)
 			print(text)
-		
