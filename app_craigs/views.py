@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 from requests.compat import quote_plus
 from .models import Search
-from http import HTTPResponse
+from http import HttpResponse
 
 BASE_JUMIA_URL = 'https://www.jumia.co.ke/catalog/?q={}'
 
@@ -93,4 +93,4 @@ def new_search_view(request):
 			print(service_code)
 			print(phone_number)
 			print(text)
-	return HTTPResponse("USSD on Fleek")
+	return HttpResponse("USSD on Fleek")
