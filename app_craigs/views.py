@@ -83,4 +83,4 @@ def new_search_view(request):
 	return render(request, 'app_craigs/new_search.html', context_for_frontend)
 
 	def home_view(request):
-	return render(request, 'app_craigs/at.html', {})
+		return render(request, 'app_craigs/at.html', {})
